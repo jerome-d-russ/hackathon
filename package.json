@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jerome-d-russ/hackathon#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "page": "^1.6.4"
   }
 }
