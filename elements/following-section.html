@@ -49,11 +49,39 @@
             <paper-card class="cards" heading={{item.content_excerpt}}>
                 <div class="layout horizontal center"><img class="avatar" src={{getMugshot(item.sender_id)}}><span style="padding-left:2em">{{getMugshotName(item.sender_id)}}</span></div>
                 <div class="card-content">{{item.body.rich}}</div>
+                <div class="card-actions">
+                    <paper-button onClick=likeThis({{item.id}})>Like!</paper-button>
+                </div>
             </paper-card>
         </template>
     </template>
 
   <script>
+  
+  function likeThi(id){        
+    yam.getLoginStatus(
+      function(response) {
+        if (response.authResponse) {
+          yam.platform.request({
+            url: "messages/liked_by/current.json?message_id=" + id,     //this is one of many REST endpoints that are available
+            method: "POST",
+            data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+            },
+            success: function (resp) { //print message response information to the console
+                 //
+            },
+            error: function (user) {
+              alert("Massive failure. Hopefully this isn't a demo!")
+            }
+          });
+        }
+        else {
+          window.location = '/login.html'
+        }
+      }
+    )
+  };
+
     Polymer({
       is: 'following-section',
       getMugshot: function(mug) {
@@ -70,12 +98,18 @@
           function(response) {
             if (response.authResponse) {
               yam.platform.request({
-                url: "messages/in_group/6568803.json",     //this is one of many REST endpoints that are available
+                url: "messages/following.json",     //this is one of many REST endpoints that are available
                 method: "GET",
                 data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
                 },
                 success: function (resp) { //print message response information to the console
-                  that.threads = resp.messages;
+                  var t = [];
+                  for(var i=0;i<resp.messages.length;i++){
+                      if(resp.messages[i].group_id == 6568803){
+                          t.push(resp.messages[i]);
+                      }
+                  }
+                  that.threads = t;
                   for(var i=0;i<resp.references.length;i++){
                     if(resp.references[i].mugshot_url){
                         that.users[resp.references[i].id] = {};
