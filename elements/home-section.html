@@ -49,6 +49,10 @@
             <paper-card class="cards" heading={{item.content_excerpt}}({{item.liked_by.count}})>
                 <div class="layout horizontal center"><img class="avatar" src={{getMugshot(item.sender_id)}}><span style="padding-left:2em">{{getMugshotName(item.sender_id)}}</span></div>
                 <div class="card-content">{{item.body.rich}}</div>
+                <div class="card-actions layout horizontal around-justified">
+                    <paper-button onclick=>Like!</paper-button>
+                    <paper-button onclick=>Follow!</paper-button>
+                </div>
             </paper-card>
         </template>
     </template>
