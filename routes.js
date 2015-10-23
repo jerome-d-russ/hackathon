@@ -1,11 +1,10 @@
 function setupRouting(){
-	var pageApp = document.querySelector("#app");
-
     yam.getLoginStatus(
       function(response) {
         if (response.authResponse) {
-          var pageApp = document.querySelector("body");
-          pageApp.style.display = 'block';
+        var b = document.getElementById("b");
+        b.style.display = 'block';
+	        var pageApp = document.querySelector("#app");
 
           //configure the routes
           page('/', home);
@@ -17,8 +16,6 @@ function setupRouting(){
           
           page({ hashbang: true });
 
-          pageApp.visible = "visibility:visible";
-	
         	function home(){
         		pageApp.route = 'home';
         	}

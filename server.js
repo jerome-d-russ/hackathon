@@ -9,4 +9,6 @@ app.use(function(req, res, next){
 
 app.listen(process.env.PORT || 3000);
 
+//git add -A
+//git commit -m "Hi"
 //git push -u origin master

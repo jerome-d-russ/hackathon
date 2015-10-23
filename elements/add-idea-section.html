@@ -1,0 +1,25 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<dom-module id="add-idea-section">
+    <template>
+        <!--<section data-route="addIdea">-->
+            <h1>Add Idea</h1>
+            <div>New Idea</div>
+            <form is="iron-form" id="form" method="post" action="/form/handler">
+                <paper-input label="Title"></paper-input>
+                <paper-input label="Description"></paper-input>
+                <paper-input label="Keywords"></paper-input>
+                <input type="hidden" value="New" name="" />
+                <paper-input label="Link to Spot"></paper-input>
+                <paper-input label="Target Release Date"></paper-input>
+                <paper-button raised onclick="submitForm()">Submit</paper-button>
+            </form>
+        <!--</section>-->
+    </template>
+    <script>
+        HTMLImports.whenReady(function() {
+            Polymer({
+                is: 'add-idea-section'
+            });
+        });
+    </script>
+</dom-module>

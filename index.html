@@ -4,14 +4,15 @@
    <title>Just Okay Ideas!</title>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+   <script type="text/javascript" data-app-id="wy4m8zSaEy8VdXH9eb61w" src="https://c64.assets-yammer.com/assets/platform_js_sdk.js"></script>
    <link rel="import" href="elements.html">
    <link rel="stylesheet" href="index.css">
-   <script type="text/javascript" data-app-id="wy4m8zSaEy8VdXH9eb61w" src="https://c64.assets-yammer.com/assets/platform_js_sdk.js"></script>
    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
    <script src="bower_components/page/page.js"></script>
+   <script src="index.js"></script>
 </head>
 
-<body style="display:none">
+<body style="display:none" id="b">
    <template is="dom-bind" id="app">
       <paper-drawer-panel id="panel">
          <paper-header-panel drawer>
@@ -44,73 +45,20 @@
             <div class="container fit layout vertical">
                <iron-pages selected="{{ route }}" attr-for-selected="data-route">
                   <section data-route="home">
-                     <h1>Home</h1>
-                     <div>Home content</div>
-
-                     <div id="embedded-feed" style="height:800px;width:400px;"></div>
-                     <script type="text/javascript" src="https://assets.yammer.com/assets/platform_embed.js"></script>
-                     <script type="text/javascript">
-                        yam.connect.embedFeed({
-                           container: "#embedded-feed",
-                           network: "nationwide.com",
-                           feedType: "group",
-                           feedId: "6568803"
-                        });
-                     </script>
-
+                     <home-section></home-section>
                   </section>
                   <section data-route="following">
-                     <following></following>
+                     <following-section></following-section>
                   </section>
                   <section data-route="trending">
-                     <h1>Trending</h1>
-                     <div>Trending content</div>
+                     <trending-section></trending-section>
                   </section>
                   <section data-route="tbt">
-                     <h1>#TBT</h1>
-                     <div>#TBT content</div>
-                     <script>
-yam.getLoginStatus(
-  function(response) {
-    if (response.authResponse) {
-      console.log("logged in");
-      yam.platform.request({
-        url: "users.json",     //this is one of many REST endpoints that are available
-        method: "GET",
-        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-          "letter": "a",
-          "page": "2",
-        },
-        success: function (user) { //print message response information to the console
-          alert("The request was successful.");
-          console.log(JSON.stringify(user));
-        },
-        error: function (user) {
-          alert("There was an error with the request.");
-          console.log(user);
-        }
-      });
-    }
-    else {
-      alert("not logged in")
-    }
-  }
-);
-                     </script>
+                     <tbt-section></tbt-section>
                   </section>
                   <section data-route="addIdea">
-                     <h1>Add Idea</h1>
-                     <div>New Idea</div>
-                     <paper-input label="Title"></paper-input>
-                     <paper-input label="Description"></paper-input>
-                     <paper-input label="Keywords"></paper-input>
-                     <input type="hidden" value="New" name=""/>
-                     <paper-input label="Link to Spot"></paper-input>
-                     <paper-input label="Target Release Date"></paper-input>
-                     <paper-button>Raised button</paper-button>
+                     <add-idea-section></add-idea-section>
                   </section>
-                  </section>
-                  
                </iron-pages>
             </div>
          </paper-header-panel>

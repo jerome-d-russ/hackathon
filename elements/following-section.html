@@ -1,0 +1,60 @@
+<dom-module id="following-section">
+  <style is="custom-style">
+    body {
+      background-color: var(--paper-grey-50);
+    }
+    .cards {
+      @apply(--layout-vertical);
+      @apply(--center-justified);
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    paper-card {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+  </style>
+    <template>
+        <template is="dom-repeat" items="{{threads}}" class="">
+            <paper-card class="cards" heading={{item.content_excerpt}}>
+                <div class="card-content">{{item.body.rich}}</div>
+            </paper-card>
+        </template>
+    </template>
+
+  <script>
+    Polymer({
+      is: 'following-section',
+      ready: function(){
+        this.threads = [];
+        var that = this;
+        yam.getLoginStatus(
+          function(response) {
+            if (response.authResponse) {
+              yam.platform.request({
+                url: "messages/in_group/6568803.json",     //this is one of many REST endpoints that are available
+                method: "GET",
+                data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+                },
+                success: function (resp) { //print message response information to the console
+                  that.threads = resp.messages;
+                  console.log(JSON.stringify(threads));
+                },
+                error: function (user) {
+                  alert("Massive failure. Hopefully this isn't a demo!")
+                }
+              });
+            }
+            else {
+              window.location = '/login.html'
+            }
+          }
+        );
+      }
+    });
+    
+
+  </script>
+
+</dom-module>
