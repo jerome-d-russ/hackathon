@@ -4,19 +4,48 @@
         <!--<section data-route="addIdea">-->
             <h1>Add Idea</h1>
             <div>New Idea</div>
-            <form is="iron-form" id="form" method="post" action="/form/handler">
+            <form is="iron-form">
                 <paper-input label="Title"></paper-input>
-                <paper-input label="Description"></paper-input>
+                <paper-input label="Description" id="desc"></paper-input>
                 <paper-input label="Keywords"></paper-input>
                 <input type="hidden" value="New" name="" />
                 <paper-input label="Link to Spot"></paper-input>
                 <paper-input label="Target Release Date"></paper-input>
-                <paper-button raised onclick="submitForm()">Submit</paper-button>
+                <paper-button raised onclick=addItem() id="btn">Submit</paper-button>
             </form>
+            <script>
+            function addItem(){
+                document.getElementById("btn").disabled = true;
+                yam.getLoginStatus(
+                  function(response) {
+                    if (response.authResponse) {
+                      var desc = document.getElementById("desc").value;
+                      yam.platform.request({
+                        url: "messages.json",     //this is one of many REST endpoints that are available
+                        method: "POST",
+                        data: {
+                            "body":desc,
+                            "group_id": 6568803
+                        },
+                        success: function (resp) { //print message response information to the console
+                          window.location = '/';
+                        },
+                        error: function (user) {
+                          alert("Massive failure. Hopefully this isn't a demo!")
+                        }
+                      });
+                    }
+                    else {
+                      window.location = '/login.html'
+                    }
+                  }
+                );
+            }
+            </script>
         <!--</section>-->
     </template>
     <script>
-        HTMLImports.whenReady(function() {
+        HTMLImports.whenReady(function() {      
             Polymer({
                 is: 'add-idea-section'
             });

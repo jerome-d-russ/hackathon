@@ -14,10 +14,40 @@
       width: 100%;
       margin-bottom: 16px;
     }
+    
+    .avatar {
+      display: block;
+      height: 64px;
+      width: 64px;
+      border-radius: 50%;
+      color: white;
+      line-height: 64px;
+      font-size: 30px;
+      text-align: center;
+    }
+    .fancy .title {
+      position: absolute;
+      top: 30px;
+      left: 100px;
+      color: var(--paper-indigo-500);
+    }
+    .fancy img {
+      width: 100%;
+    }
+    .fancy .big {
+      font-size: 22px;
+      padding: 8px 0 16px;
+      color: var(--google-grey-500);
+    }
+    .fancy .medium {
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
   </style>
     <template>
         <template is="dom-repeat" items="{{threads}}" class="">
             <paper-card class="cards" heading={{item.content_excerpt}}>
+                <div class="layout horizontal center"><img class="avatar" src={{getMugshot(item.sender_id)}}><span style="padding-left:2em">{{getMugshotName(item.sender_id)}}</span></div>
                 <div class="card-content">{{item.body.rich}}</div>
             </paper-card>
         </template>
@@ -26,8 +56,15 @@
   <script>
     Polymer({
       is: 'following-section',
+      getMugshot: function(mug) {
+          return this.users[mug].mugshot_url;
+      },
+      getMugshotName: function(mug) {
+          return this.users[mug].full_name;
+      },
       ready: function(){
         this.threads = [];
+        this.users = [];
         var that = this;
         yam.getLoginStatus(
           function(response) {
@@ -39,7 +76,13 @@
                 },
                 success: function (resp) { //print message response information to the console
                   that.threads = resp.messages;
-                  console.log(JSON.stringify(threads));
+                  for(var i=0;i<resp.references.length;i++){
+                    if(resp.references[i].mugshot_url){
+                        that.users[resp.references[i].id] = {};
+                        that.users[resp.references[i].id].mugshot_url = resp.references[i].mugshot_url;   
+                        that.users[resp.references[i].id].full_name = resp.references[i].full_name;   
+                    }
+                  }
                 },
                 error: function (user) {
                   alert("Massive failure. Hopefully this isn't a demo!")
