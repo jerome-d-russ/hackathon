@@ -1,0 +1,88 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<!--
+An element for fetching GitHub issues
+Example:
+    <yams></yams>
+@group Seed Elements
+@element yams
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="ajax-wrapper">
+
+  <template>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+    </style>
+    <div>hi</div>
+    <iron-ajax
+      auto
+      url="{{url}}"
+      method="POST"
+      handle-as="json"
+      headers='{"Accept": "*/*", "Authorization": "3773-gdKhBnKFyZ2iBMua02unw", "Access-Control-Allow-Origin": "*"}',
+      last-response="{{response}}"></iron-ajax>
+      
+      <div>{{response}}</div>
+
+      <template is="dom-repeat" items="{{response.messages}}">
+        <div>{{item.id}}</div>
+      </template>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'ajax-wrapper',
+    properties: {
+      owner: {
+        value: 'polymer',
+        notify: true
+      },
+      repo: {
+        value: 'polymer',
+        notify: true
+      },
+      state: {
+        value: 'open',
+        notify: true
+      },
+      page: {
+        value: 1,
+        notify: true
+      },
+      url: {
+        computed: 'computeUrl(owner, repo)'
+      },
+      options: {
+        computed: 'computeOptions(state, page)'
+      }
+    },
+    computeUrl: function(owner, repo) {
+        return ['https://www.yammer.com/api/v1/messages.json'];
+      //return ['https://api.github.com/repos', owner, repo, 'issues'].join('/');
+    },
+    computeOptions: function(state, page) {
+      //return {state: state, page: page};
+      var options = '{headers: {"Authorization": "Bearer ' + localStorage['token'] + "}}";
+      console.log(options);
+      return options;
+      //return;
+    }
+  });
+</script>
